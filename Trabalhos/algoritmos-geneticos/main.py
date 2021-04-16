@@ -131,7 +131,7 @@ if __name__ == '__main__':
             aptidao, melhor_individuo = avalia(POPULACAO)
 
             noves = [encontrarN9(n) for n in aptidao]
-            media = np.mean(aptidao)
+            media = np.mean(noves)
             media_aptidao.append(media)
 
             POPULACAO = roleta(POPULACAO, aptidao)
@@ -152,9 +152,11 @@ if __name__ == '__main__':
         print('-------------------------------------')
         print('-------------------------------------\n\n')
 
-    
+    _max = 0
     for i, medias in enumerate(medias_experimentos):
         plt.plot(range(N_GERACOES), medias, i)
+        m = max(medias) 
+        _max = m if m > _max else _max
 
-    plt.ylim([0.4, 1.1])
+    plt.ylim([0, _max + 0.2])
     plt.show()
