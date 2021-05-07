@@ -120,19 +120,25 @@ def encontrarN9(numero):
 if __name__ == '__main__':
 
     medias_experimentos = []
+    medias_9_experimentos = []
     for EXPERIMENTO in range(N_EXPERIMENTOS):
         POPULACAO = [
             np.random.randint(2, size=K*2) for _ in range(N_POPULACAO)
         ]
 
         media_aptidao = []
+        media_9 = []
         for GERACAO in range(N_GERACOES):
             
             aptidao, melhor_individuo = avalia(POPULACAO)
 
             noves = [encontrarN9(n) for n in aptidao]
+            
             media = np.mean(aptidao)
+            media_noves = np.mean(noves)
+            
             media_aptidao.append(media)
+            media_9.append(media)
 
             POPULACAO = roleta(POPULACAO, aptidao)
             
@@ -144,17 +150,32 @@ if __name__ == '__main__':
             POPULACAO[posicao_aleatoria] = melhor_individuo
         
         medias_experimentos.append(media_aptidao)
+        medias_9_experimentos.append(media_9)
 
         print('-------------------------------------')
         print(f'EXPERIMENTO {EXPERIMENTO}')
         print(f'\tMAX APTIDAO: {max(media_aptidao)}')
+        print(f'\tMAX 9: {max(media_9)}')
         print(f'\tMÉDIA APTIDAO: {np.mean(media_aptidao)}')
         print('-------------------------------------')
         print('-------------------------------------\n\n')
 
-    
-    for i, medias in enumerate(medias_experimentos):
-        plt.plot(range(N_GERACOES), medias, i)
+    fig, (ax1, ax2) = plt.subplots(1, 2)
 
-    plt.ylim([0.4, 1.1])
+    for i, medias in enumerate(medias_experimentos):
+        _range = range(N_GERACOES)
+        ax1.plot(_range, medias, i)
+        ax2.plot(_range, medias_9_experimentos[i], i)
+
+    fig.suptitle('Algoritmo Genético (Cada linha é um experimento)', fontsize=14)
+
+    ax1.set_ylim([0.4, 1.1])
+    ax1.set_xlabel('Geração')
+    ax1.set_ylabel('Aptidão')
+    ax1.set_title("Aptidão por geração")
+
+    ax2.set_ylim([0.4, 1.3])
+    ax2.set_xlabel('Geração')
+    ax2.set_ylabel('N° 9')
+    ax2.set_title("N° 9 depois da virgula por geração")
     plt.show()
