@@ -138,7 +138,7 @@ if __name__ == '__main__':
             media_noves = np.mean(noves)
             
             media_aptidao.append(media)
-            media_9.append(media)
+            media_9.append(media_noves)
 
             POPULACAO = roleta(POPULACAO, aptidao)
             
@@ -174,8 +174,9 @@ if __name__ == '__main__':
     ax1.set_ylabel('Aptidão')
     ax1.set_title("Aptidão por geração")
 
-    ax2.set_ylim([0.4, 1.3])
+    ax2.set_ylim([-0.3, 2])
     ax2.set_xlabel('Geração')
     ax2.set_ylabel('N° 9')
+    ax2.set_yticks(np.linspace(-0.3, 2, 11))
     ax2.set_title("N° 9 depois da virgula por geração")
     plt.show()
